@@ -73,9 +73,21 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        editFirstName!!.setText(savedInstanceState.getString("fn_data"))
-        editMidName!!.setText(savedInstanceState.getString("mn_data"))
-        editLastName!!.setText(savedInstanceState.getString("ln_data"))
+        firstName = savedInstanceState.getString("fn_data")
+        midName = savedInstanceState.getString("mn_data")
+        lastName = savedInstanceState.getString("ln_data")
+
+        if (!firstName.isNullOrBlank()) {
+            editFirstName!!.setText(firstName)
+        }
+
+        if (!midName.isNullOrBlank()) {
+            editMidName!!.setText(midName)
+        }
+
+        if (!lastName.isNullOrBlank()) {
+            editLastName!!.setText(lastName)
+        }
 
         profilePicPath = savedInstanceState.getString("tn_data")
         if (!profilePicPath.isNullOrBlank()) {
@@ -138,8 +150,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
                 try {
                     cameraLauncher.launch(cameraIntent)
-
-                    imageButton!!.setImageBitmap(profilePic)
                 } catch (ex:ActivityNotFoundException) {
                 }
             }
@@ -154,6 +164,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
             if (isExternalStorageWritable) {
                 profilePicPath = saveImage(profilePic)
+                imageButton!!.setImageBitmap(profilePic)
             }
         }
 
